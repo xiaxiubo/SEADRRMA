@@ -1,0 +1,13 @@
+{
+  "model": "D:\\xxb\\SEADRRMA\\SEADRRMA\\deployment_package_trace_hardware_final_v1_20260726\\onnx\\trace_hardware_control.onnx",
+  "threads": 1,
+  "steps": 3000,
+  "mean_ms": 0.8561153666666665,
+  "p95_ms": 1.2399349999999998,
+  "p99_ms": 1.943806,
+  "max_ms": 3.5235,
+  "deadline_ms": 5.0,
+  "deadline_miss_count": 0,
+  "deadline_miss_rate": 0.0,
+  "onnxruntime_version": "1.23.2"
+}

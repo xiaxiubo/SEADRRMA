@@ -1,0 +1,28 @@
+{
+  "mode": "onnxruntime_final_v1_diagnostics",
+  "model": "/home/buaa/workspace/SEA_BOX/deployment_package_drrma_final_v1/onnx/drrma_control_only.onnx",
+  "onnxruntime_version": "1.23.2",
+  "providers": [
+    "CPUExecutionProvider"
+  ],
+  "threads": 2,
+  "requested_outputs": [
+    "action",
+    "j_hat",
+    "j_short",
+    "j_long",
+    "jump_gate",
+    "confidence"
+  ],
+  "steps": 3000,
+  "warmup": 300,
+  "mean_ms": 3.417151993,
+  "median_ms": 3.395604,
+  "p95_ms": 3.5773018499999996,
+  "p99_ms": 3.7170922199999956,
+  "max_ms": 6.044848,
+  "deadline_ms": 5.0,
+  "deadline_miss_count": 6,
+  "deadline_miss_rate": 0.002,
+  "estimated_max_hz_from_mean": 292.6413580807905
+}

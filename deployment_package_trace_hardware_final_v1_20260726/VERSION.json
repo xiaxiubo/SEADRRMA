@@ -1,0 +1,32 @@
+{
+  "version": "trace_hardware_final_v1_20260726",
+  "created_at": "2026-07-26",
+  "purpose": "Final TRACE controller for deployment on the measured SEA joint",
+  "selected_fast": {
+    "architecture": "ImprovedAttentionFastBranch",
+    "training": "adjacent-window temporal fine-tuning",
+    "source_checkpoint": "hardware_fast_temporal_20260726_183653/fast_attn_v2_epoch_03.pth"
+  },
+  "frozen_components": {
+    "teacher": "final_teacher_hardware_v1_precision_20260725",
+    "slow_student": "hardware_v1_slow_20260725_170341",
+    "normalization": "teacher best VecNormalize paired with the frozen teacher"
+  },
+  "deployment_physics": {
+    "fc_motor": 3.24,
+    "fc_load": 0.34,
+    "b_motor": 10.43,
+    "b_load": 0.76,
+    "spring_stiffness": 2400.0,
+    "inertia_velocity_rescale_mode": "none"
+  },
+  "online_fast_inputs": {
+    "friction_parameters": false,
+    "spring_stiffness": 2400.0,
+    "history_length": 100,
+    "observation_dimension": 9,
+    "control_period_seconds": 0.005
+  },
+  "selection_report": "SELECTION_REPORT.json",
+  "evaluation_summary": "evaluation/summary.json"
+}

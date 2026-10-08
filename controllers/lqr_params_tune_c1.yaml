@@ -1,0 +1,19 @@
+version: 1
+model_params:
+  spring_stiffness: 2400.0
+  motor_damping: 0.0955
+  load_damping: 0.0
+  motor_inertia: 0.417
+  load_inertia: 0.05
+weights:
+  q_diag:
+  - 50.0
+  - 2.0
+  - 200.0
+  - 2.0
+  r_value: 0.5
+K:
+- - 47.416245027855815
+  - 6.504065788991868
+  - -25.055565252857082
+  - -1.220531863541244

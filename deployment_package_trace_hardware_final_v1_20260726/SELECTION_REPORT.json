@@ -1,0 +1,56 @@
+{
+  "selected_version": "trace_hardware_final_v1_20260726",
+  "selected_fast_checkpoint": "fast_attn_v2_epoch_03.pth",
+  "baseline": "candidate_v1_20260726",
+  "selection_basis": {
+    "same_teacher": true,
+    "same_slow_student": true,
+    "same_vecnormalize": true,
+    "same_hardware_profile": true,
+    "same_trajectory_cases": true,
+    "same_friction_grid": true,
+    "same_random_seeds": true,
+    "closed_loop_cases": 54
+  },
+  "aggregate_54_cases": {
+    "baseline": {
+      "mean_stable_inertia_rmse": 0.040896441005475195,
+      "worst_stable_inertia_rmse": 0.1187059304597335,
+      "mean_tracking_rmse": 0.01612680235596046,
+      "worst_tracking_rmse": 0.09140750090952096,
+      "mean_torque_delta_rms": 2.0267880730765686,
+      "worst_torque_delta_rms": 2.582043783243914,
+      "mean_torque_delta_p99": 5.287060401059547,
+      "worst_torque_delta_p99": 8.37740365192294
+    },
+    "optimized": {
+      "mean_stable_inertia_rmse": 0.03561122955476059,
+      "worst_stable_inertia_rmse": 0.08593499585171076,
+      "mean_tracking_rmse": 0.016141183236809412,
+      "worst_tracking_rmse": 0.09178907468009978,
+      "mean_torque_delta_rms": 2.0212399804487733,
+      "worst_torque_delta_rms": 2.5667849809849708,
+      "mean_torque_delta_p99": 5.2301568280305295,
+      "worst_torque_delta_p99": 8.552087957710025
+    }
+  },
+  "nominal_main_case": {
+    "trajectory": "0.3 sin(2*pi*0.5*t)",
+    "inertia_schedule": [0.3, 0.05, 0.75],
+    "fc_load": 0.34,
+    "b_load": 0.76,
+    "baseline": {
+      "tracking_rmse": 0.0038838982563273138,
+      "stable_inertia_rmse": 0.018189936896702074,
+      "torque_delta_rms": 2.4934242717008637,
+      "torque_delta_p99": 6.13397313028574
+    },
+    "optimized": {
+      "tracking_rmse": 0.0030257958097675655,
+      "stable_inertia_rmse": 0.010373081882086695,
+      "torque_delta_rms": 2.0123745173574816,
+      "torque_delta_p99": 6.457040611729026
+    }
+  },
+  "decision": "Select epoch 3. It materially improves inertia accuracy and nominal tracking while reducing torque-delta RMS. Mean tracking over 54 cases is unchanged within 0.1%; the small worst-case torque p99 increase is retained as a deployment verification item."
+}

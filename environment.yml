@@ -1,0 +1,17 @@
+name: torch_env
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - numpy
+  - scipy
+  - pandas
+  - matplotlib
+  - pyyaml
+  - pip:
+      - pysoem
+      - pyserial
+      - onnxruntime
+      - torch
+      - stable-baselines3

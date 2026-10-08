@@ -1,0 +1,35 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+
+# Models and training artifacts
+models/*
+!models/.gitkeep
+*.onnx
+*.pth
+*.pt
+*.pkl
+*.zip
+*.npz
+
+# Test output and local calibration
+logs/
+results/
+config/*.local.json
+config/*private*
+*.csv
+
+# Credentials and editor files
+.env
+*.key
+*.pem
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+

@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "profile_name": "trace_hardware_v1",
+  "purpose": "Real-SEA deployment training only. Do not use this profile for paper simulation baselines.",
+  "measured_parameters": {
+    "drive_feedback_total": {
+      "fc_nm": 3.57,
+      "b_nm_s_per_rad": 11.19
+    },
+    "load_side_elastic_ratio_0p25": {
+      "fc_nm": 0.34,
+      "b_nm_s_per_rad": 0.76
+    },
+    "motor_harmonic_side": {
+      "fc_nm": 3.24,
+      "b_nm_s_per_rad": 10.43
+    },
+    "spring_stiffness_nm_per_rad": 2400.0,
+    "rounding_check": {
+      "fc_side_sum_nm": 3.58,
+      "fc_total_difference_nm": 0.01,
+      "b_side_sum_nm_s_per_rad": 11.19
+    }
+  },
+  "nominal_physics": {
+    "fc_motor": 3.24,
+    "fc_load": 0.34,
+    "b_motor": 10.43,
+    "b_load": 0.76,
+    "spring_stiffness": 2400.0,
+    "delta_Ks": 0.0
+  },
+  "training_domain": {
+    "description": "Narrow randomization around measured values for deployment robustness.",
+    "fc_motor_range": [2.916, 3.564],
+    "fc_load_range": [0.272, 0.408],
+    "b_motor_range": [9.387, 11.473],
+    "b_load_range": [0.608, 0.912],
+    "delta_Ks_range": [-120.0, 120.0]
+  },
+  "student_env_config": {
+    "xml_path": "hardware_training/sea_model_hardware_v1.xml",
+    "trajectory_type": "composite",
+    "trajectory_amplitude_range": [0.1, 0.65],
+    "trajectory_freq_range": [0.15, 1.2],
+    "enable_inertia_variation": true,
+    "inertia_range": [0.05, 1.0],
+    "inertia_velocity_rescale_mode": "none",
+    "episode_length": 10.0,
+    "control_dt": 0.005,
+    "sim_dt": 0.001,
+    "fc_motor_range": [2.916, 3.564],
+    "fc_load_range": [0.272, 0.408],
+    "b_motor_range": [9.387, 11.473],
+    "b_load_range": [0.608, 0.912],
+    "delta_Ks_range": [-120.0, 120.0]
+  },
+  "teacher_training": {
+    "training_mode": "drrma_full_from_scratch",
+    "timesteps": 24000000,
+    "n_envs": 16,
+    "n_steps": 2560,
+    "batch_size": 512,
+    "n_epochs": 15,
+    "learning_rate": 0.0003,
+    "final_learning_rate": 0.00005,
+    "episode_length": 5.0,
+    "seed": 2400724
+  },
+  "student_training": {
+    "slow_collection_episodes": 8000,
+    "fast_train_episodes": 1200,
+    "fast_validation_episodes": 160,
+    "dagger_episodes_per_iteration": 300,
+    "dagger_oracle_blends": [0.8, 0.5, 0.2, 0.0],
+    "slow_epochs": 60,
+    "fast_offline_epochs": 30,
+    "fast_dagger_epochs": 10,
+    "batch_size": 1024
+  }
+}

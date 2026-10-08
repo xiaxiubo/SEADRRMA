@@ -1,0 +1,9 @@
+{
+  "model_file": "models/trace_hardware_control.onnx",
+  "sha256": "REPLACE_WITH_RELEASE_SHA256",
+  "observation_dimension": 9,
+  "history_length": 100,
+  "control_period_ms": 5.0,
+  "stateful_slow_latent": false,
+  "notes": "Keep physical parameters and learned feature calibration separate."
+}

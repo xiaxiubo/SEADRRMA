@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "samples": 16,
+  "seed": 20260715,
+  "absolute_tolerance": 0.0001,
+  "max_abs_error": {
+    "action": 2.384185791015625e-07,
+    "j_hat": 2.8312206268310547e-07,
+    "j_short": 2.682209014892578e-07,
+    "j_long": 8.195638656616211e-08,
+    "jump_gate": 2.384185791015625e-07,
+    "confidence": 1.1920928955078125e-07
+  },
+  "mean_abs_error": {
+    "action": 6.752088665962219e-08,
+    "j_hat": 6.402842700481415e-08,
+    "j_short": 6.903428584337234e-08,
+    "j_long": 3.4458935260772705e-08,
+    "jump_gate": 7.450580596923828e-08,
+    "confidence": 4.0978193283081055e-08
+  },
+  "onnxruntime_version": "1.23.2",
+  "providers": [
+    "CPUExecutionProvider"
+  ]
+}

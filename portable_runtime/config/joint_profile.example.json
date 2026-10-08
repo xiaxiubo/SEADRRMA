@@ -1,0 +1,38 @@
+{
+  "control_period_s": 0.005,
+  "history_length": 100,
+  "startup_duration_s": 0.6,
+  "model_torque_scale_nm": 61.0,
+  "torque_limit_nm": 8.0,
+  "torque_slew_limit_nm_per_s": 400.0,
+  "position_limit_rad": 1.2,
+  "velocity_limit_rad_s": 5.0,
+  "spring_deflection_limit_rad": 0.03,
+  "watchdog_limit_s": 0.02,
+  "output_ramp_s": 2.0,
+  "trajectory": {
+    "kind": "sine",
+    "amplitude_rad": 0.1,
+    "frequency_hz": 0.2,
+    "offset_rad": 0.0,
+    "phase_rad": 0.0
+  },
+  "calibration": {
+    "motor_position_sign": 1.0,
+    "load_position_sign": 1.0,
+    "spring_deflection_sign": 1.0,
+    "motor_position_offset_rad": 0.0,
+    "load_position_offset_rad": 0.0,
+    "spring_deflection_offset_rad": 0.0
+  },
+  "plant_reference": {
+    "spring_stiffness_nm_per_rad": 2400.0,
+    "motor_dynamic_coulomb_nm": 2.72,
+    "motor_breakaway_nm": 4.70,
+    "motor_viscous_nm_s_per_rad": 9.26,
+    "load_dynamic_coulomb_nm": 0.85,
+    "load_breakaway_nm": 0.85,
+    "load_viscous_nm_s_per_rad": 1.93
+  }
+}
+

@@ -1,0 +1,104 @@
+{
+  "date": "2026-07-27",
+  "scope": "local_cpu_preliminary_test",
+  "model": "onnx/trace_hardware_control.onnx",
+  "version": "trace_hardware_final_v1_20260726",
+  "model_sha256": "58c453cb53702784874165b94cd934beabd835026ce35ccca94ad01c26449780",
+  "manifest": {
+    "original_files_checked": 12,
+    "passed": true
+  },
+  "configuration": {
+    "control_period_ms": 5.0,
+    "spring_stiffness_nm_per_rad": 2400.0,
+    "startup_override_seconds": 0.6,
+    "startup_inertia_kg_m2": 0.3
+  },
+  "local_runtime": {
+    "python_version": "3.13.9",
+    "onnxruntime_version": "1.28.0",
+    "provider": "CPUExecutionProvider",
+    "logical_processor_count": 20
+  },
+  "interface": {
+    "passed": true,
+    "inputs": {
+      "history": [1, 100, 9],
+      "base_obs": [1, 9],
+      "startup_override": [1, 1]
+    },
+    "outputs": [
+      "action",
+      "j_hat",
+      "j_raw",
+      "j_short",
+      "j_long",
+      "jump_gate",
+      "confidence"
+    ]
+  },
+  "zero_input_check": {
+    "startup_enabled": {
+      "action": 0.0030019,
+      "j_hat": 0.30000001,
+      "j_raw": 0.8478813,
+      "j_short": 0.7506823,
+      "j_long": 0.8698868,
+      "jump_gate": 0.1846,
+      "confidence": 0.000214
+    },
+    "startup_disabled": {
+      "action": 0.0053033,
+      "j_hat": 0.8478813,
+      "j_raw": 0.8478813
+    }
+  },
+  "robustness": {
+    "identical_input_repetitions": 20,
+    "determinism_max_abs_diff": 0.0,
+    "random_stress_steps": 2000,
+    "all_outputs_finite": true,
+    "invalid_history_shape_rejected": true,
+    "invalid_base_obs_shape_rejected": true,
+    "float64_input_rejected": true
+  },
+  "model_latency": {
+    "steps_per_case": 3000,
+    "deadline_ms": 5.0,
+    "one_thread": {
+      "mean_ms": 1.2005434,
+      "p95_ms": 1.39052,
+      "p99_ms": 1.56811,
+      "max_ms": 1.902,
+      "deadline_miss_count": 0
+    },
+    "four_threads": {
+      "mean_ms": 0.7678217333,
+      "p95_ms": 0.90014,
+      "p99_ms": 1.038496,
+      "max_ms": 1.6105,
+      "deadline_miss_count": 0
+    }
+  },
+  "wrapper_latency_four_threads": {
+    "steps": 3000,
+    "mean_ms": 0.794771,
+    "p99_ms": 1.14177,
+    "max_ms": 1.9426,
+    "deadline_ms": 5.0,
+    "deadline_miss_count": 0
+  },
+  "provided_export_validation": {
+    "samples": 64,
+    "absolute_tolerance": 0.0001,
+    "maximum_error_across_outputs": 1.3262033462524414e-06,
+    "passed": true
+  },
+  "limitations": [
+    "No EtherCAT or serial I/O was exercised.",
+    "No full 200 Hz closed-loop deadline measurement was performed.",
+    "No actuator command was issued.",
+    "The adapted Orin entry script has not been uploaded to Orin."
+  ],
+  "passed": true
+}

@@ -1,0 +1,50 @@
+﻿[
+    {
+        "Path":  "D:\\xxb\\SEADRRMA\\SEADRRMA\\deployment_package_trace_hardware_final_v1_20260726\\benchmark_onnx.py",
+        "Hash":  "BAF57986F53C300523160C7B1553774361D283D9F9034A8B17819742430883F9"
+    },
+    {
+        "Path":  "D:\\xxb\\SEADRRMA\\SEADRRMA\\deployment_package_trace_hardware_final_v1_20260726\\hardware_v1_profile.json",
+        "Hash":  "ABD399ABDEFA4128F75B938CB42219BE6DCCEE9C2810C19787E9F9508A16F0AF"
+    },
+    {
+        "Path":  "D:\\xxb\\SEADRRMA\\SEADRRMA\\deployment_package_trace_hardware_final_v1_20260726\\README.md",
+        "Hash":  "4F01BF1F89186D6033844B282251FFA4B0939D9C1B30535B50547D2B75AC6738"
+    },
+    {
+        "Path":  "D:\\xxb\\SEADRRMA\\SEADRRMA\\deployment_package_trace_hardware_final_v1_20260726\\requirements.txt",
+        "Hash":  "3548520880D44116C4234DDF6D974FA372CF6E49657DFFD3563BFEEF70EFD52E"
+    },
+    {
+        "Path":  "D:\\xxb\\SEADRRMA\\SEADRRMA\\deployment_package_trace_hardware_final_v1_20260726\\SELECTION_REPORT.json",
+        "Hash":  "5E8C58CBA5665DCD299741C76F05D74BE9C63AC6201FD1931988EE732B6FC593"
+    },
+    {
+        "Path":  "D:\\xxb\\SEADRRMA\\SEADRRMA\\deployment_package_trace_hardware_final_v1_20260726\\SHA256SUMS.txt",
+        "Hash":  "5B9682521D633ED9E20A0D1F94B4BE416D24D5F7AD0794E2220D670D4F4185D4"
+    },
+    {
+        "Path":  "D:\\xxb\\SEADRRMA\\SEADRRMA\\deployment_package_trace_hardware_final_v1_20260726\\VERSION.json",
+        "Hash":  "F70B100486219EE0F274F8FDE9309436A9050A7B1D39D43E00E01D56CB8B3B4D"
+    },
+    {
+        "Path":  "D:\\xxb\\SEADRRMA\\SEADRRMA\\deployment_package_trace_hardware_final_v1_20260726\\onnx\\latency_cpu_1thread.json",
+        "Hash":  "C58CD40029C1F66017D72953E3A1126AD9B33C8D973431FF3DE1E7079485C7A7"
+    },
+    {
+        "Path":  "D:\\xxb\\SEADRRMA\\SEADRRMA\\deployment_package_trace_hardware_final_v1_20260726\\onnx\\latency_cpu_4thread.json",
+        "Hash":  "B869FD6A4833A8A2315293872A799C634A43A8E4FB5DA39D9DBC7F0122117B4F"
+    },
+    {
+        "Path":  "D:\\xxb\\SEADRRMA\\SEADRRMA\\deployment_package_trace_hardware_final_v1_20260726\\onnx\\metadata.json",
+        "Hash":  "A7903F3D4C7755C8F792F813F8F019AE3E62F61FDB4CC5D551E3F50B6D5322B4"
+    },
+    {
+        "Path":  "D:\\xxb\\SEADRRMA\\SEADRRMA\\deployment_package_trace_hardware_final_v1_20260726\\onnx\\trace_hardware_control.onnx",
+        "Hash":  "58C453CB53702784874165B94CD934BEABD835026CE35CCCA94AD01C26449780"
+    },
+    {
+        "Path":  "D:\\xxb\\SEADRRMA\\SEADRRMA\\deployment_package_trace_hardware_final_v1_20260726\\onnx\\validation_results.json",
+        "Hash":  "08928875E480DACF292E8B5C1A5A58EFE8B1A25183FBE2D2EB344C5DDFD14678"
+    }
+]

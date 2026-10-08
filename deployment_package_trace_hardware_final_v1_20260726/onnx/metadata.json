@@ -1,0 +1,62 @@
+{
+  "format": "trace_hardware_onnx",
+  "version": "trace_hardware_final_v1_20260726",
+  "opset": 18,
+  "source_checkpoint_dir": "D:\\xxb\\SEADRRMA\\SEADRRMA\\hardware_training\\final_experiment_trace_hardware_v1_20260726",
+  "control_period_ms": 5.0,
+  "spring_stiffness_nm_per_rad": 2400.0,
+  "startup_override_seconds": 0.6,
+  "startup_inertia": 0.3,
+  "inputs": {
+    "history": [
+      1,
+      100,
+      9
+    ],
+    "base_obs": [
+      1,
+      9
+    ],
+    "startup_override": [
+      1,
+      1
+    ]
+  },
+  "outputs": {
+    "action": [
+      1,
+      1
+    ],
+    "j_hat": [
+      1,
+      1
+    ],
+    "j_raw": [
+      1,
+      1
+    ],
+    "j_short": [
+      1,
+      1
+    ],
+    "j_long": [
+      1,
+      1
+    ],
+    "jump_gate": [
+      1,
+      1
+    ],
+    "confidence": [
+      1,
+      1
+    ]
+  },
+  "onnx_sha256": "58c453cb53702784874165b94cd934beabd835026ce35ccca94ad01c26449780",
+  "source_sha256": {
+    "fast_attn_v2.pth": "524df545994d915b6515bfae2937e66edb6af3eb69fa36fdd9f7e2e3298f78c2",
+    "slow_tcn.pth": "67575e59fa14d218ffcc9d6a10caee39c8e599de225133ac9f7e8fd300f8560e",
+    "teacher_model.zip": "d7b35a9da285607443eb5b0e3115788d3440d5964f86f51de00b984f017935d5",
+    "vec_normalize.pkl": "8f9db1f4f3bbb164bb3f1d42be6d581992c7a49b58e5f8c6e5a754bdde394f25"
+  }
+}

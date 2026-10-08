@@ -1,0 +1,23 @@
+{
+  "mode": "onnxruntime_final_v1_action",
+  "model": "D:\\graduate\\chapter3\\SEADRRMA\\SEADRRMA\\deployment_package_drrma_final_v1\\onnx\\drrma_control_only.onnx",
+  "onnxruntime_version": "1.23.2",
+  "providers": [
+    "CPUExecutionProvider"
+  ],
+  "threads": 1,
+  "requested_outputs": [
+    "action"
+  ],
+  "steps": 5000,
+  "warmup": 500,
+  "mean_ms": 0.8617447199999999,
+  "median_ms": 0.8412,
+  "p95_ms": 0.97311,
+  "p99_ms": 1.127204,
+  "max_ms": 2.4628,
+  "deadline_ms": 5.0,
+  "deadline_miss_count": 0,
+  "deadline_miss_rate": 0.0,
+  "estimated_max_hz_from_mean": 1160.436468934791
+}

@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.venv/
+venv/
+
+# Local configuration and credentials
+.env
+.env.*
+*.local.json
+*.local.yaml
+*.local.yml
+*credentials*
+*secret*
+
+# Experiment output
+logs/
+results/
+figures/
+*.csv
+*.npy
+*.npz
+
+# Duplicate transport archives
+*.zip
+*.tar
+*.tar.gz
+
+# Model artifacts are distributed separately
+*.onnx
+*.data
+*.pt
+*.pth
+*.ts
+*.pkl
+
+# Editor and OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

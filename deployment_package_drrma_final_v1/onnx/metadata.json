@@ -1,0 +1,68 @@
+{
+  "format": "onnx_drrma_final_v1",
+  "opset": 18,
+  "source_version": "final_v1",
+  "source_checkpoint_dir": "D:\\graduate\\chapter3\\SEADRRMA\\SEADRRMA\\checkpoints_attention_online\\final_v1",
+  "architecture": {
+    "fast": "ImprovedAttentionFastBranch",
+    "slow": "SlowTCNBranch",
+    "actor": "deterministic PPO actor",
+    "history_length": 100,
+    "observation_dim": 9,
+    "control_period_ms": 5.0
+  },
+  "inputs": {
+    "history": [
+      1,
+      100,
+      9
+    ],
+    "base_obs": [
+      1,
+      9
+    ]
+  },
+  "outputs": {
+    "action": [
+      1,
+      1
+    ],
+    "j_hat": [
+      1,
+      1
+    ],
+    "j_short": [
+      1,
+      1
+    ],
+    "j_long": [
+      1,
+      1
+    ],
+    "jump_gate": [
+      1,
+      1
+    ],
+    "confidence": [
+      1,
+      1
+    ]
+  },
+  "runtime_dependencies": [
+    "numpy",
+    "onnxruntime"
+  ],
+  "model_sha256": "7b5ad5073b15d3f84bf0eba0b3ddf1f698ff3d48d455e3ad0df85ab99a29129c",
+  "source_sha256": {
+    "fast_attn_v2.pth": "c634747aba9b5b2d8ca05ba00157325cdc410606e6d16974f4331ff3cd1b7b26",
+    "slow_tcn.pth": "dbf12ac4a328d653a924454bc8ea08bcffec4ff4a37f21f9c9be718d9f157c30",
+    "teacher_model.zip": "9c7825b48a6ce8faa40b346f8e7664fcaa25b96ef17ffe17b212168a888eb8ec",
+    "vec_normalize.pkl": "02ddeff928a971ea6b6262a91e0aaa10de1fe94d2a33bd1c3a954f545a375d5a"
+  },
+  "notes": [
+    "The graph contains Fast Attention v2, Slow TCN, VecNormalize statistics, and the PPO actor.",
+    "j_hat is the bounded raw fast-branch estimate used by the actor.",
+    "No attention matrices are exported, avoiding diagnostic tensor overhead.",
+    "The graph is stateless; the caller maintains the 100-step history and previous action."
+  ]
+}
