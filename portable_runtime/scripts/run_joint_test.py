@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import argparse
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 from seadrrma_joint.backend import load_backend
@@ -30,7 +30,8 @@ def main() -> None:
     backend = load_backend(args.backend, profile)
     controller = TraceOnnxController(args.model, profile.history_length, args.threads)
     log_path = args.log or (
-        Path("logs") / f"joint_test_{datetime.now().strftime('%Y%m%d_%H%M%S')}.csv"
+        Path("logs")
+        / f"joint_test_{datetime.now(timezone.utc).strftime('%Y%m%d_%H%M%S')}.csv"
     )
     print(f"backend={args.backend} output_enabled={args.enable_output} log={log_path}")
     with CsvLogger(log_path) as logger:

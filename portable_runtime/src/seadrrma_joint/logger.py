@@ -4,7 +4,6 @@ import csv
 from pathlib import Path
 from typing import Any
 
-
 FIELDS = (
     "time_s",
     "compute_ms",
@@ -46,7 +45,7 @@ class CsvLogger:
         self.stream.flush()
         self.stream.close()
 
-    def __enter__(self) -> "CsvLogger":
+    def __enter__(self) -> CsvLogger:
         return self
 
     def __exit__(self, *_: object) -> None:

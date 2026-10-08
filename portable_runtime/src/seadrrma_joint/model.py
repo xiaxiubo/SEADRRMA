@@ -8,7 +8,6 @@ import onnxruntime as ort
 from .history import ObservationHistory
 from .types import ModelOutput
 
-
 EXPECTED_INPUTS = ("history", "base_obs", "startup_override")
 EXPECTED_OUTPUTS = (
     "action",
