@@ -1,0 +1,23 @@
+\section{Discussion}
+
+\subsection{Central Finding and Interpretation}
+
+The matched zero-phase benchmark shows that TRACE improves full-episode tracking under the tested abrupt inertia sequence while preserving bounded torque and zero saturation. The advantage over the same-reward RMA baseline is 9.1\%, substantially smaller than in earlier unmatched comparisons but more defensible because both methods use deployment-only history and comparable reward shaping. Together with the stable inertia estimates in Fig.~\ref{fig:sim_main}(d), this result is consistent with explicit inertia information complementing a general latent adaptation vector.
+
+This comparison does not establish that explicit inertia estimation is always superior. PPO achieved the lowest RMSE during the first 0.5~s after payload attachment, and the two 108-condition heatmaps show that low inertia RMSE does not necessarily imply low tracking RMSE. The frozen policy and Slow TCN latent can compensate for moderate estimation error, while a physically accurate estimate can still yield suboptimal tracking if the policy was not trained for the local reference dynamics.
+
+\subsection{Transition Asymmetry and Control Smoothness}
+
+The payload-release event was easier for TRACE than the 15-fold payload-attachment event. Both the fused estimate and tracking error showed a larger excursion after the upward transition. This asymmetry may reflect the larger dynamical change, the finite 0.5-s history replacement time, and reduced coverage of equally extreme upward transitions in closed-loop training. The mechanism plot supports temporal redistribution at both events, but it should not be interpreted as a formal detection guarantee.
+
+TRACE also did not minimize every control-effort metric. Its torque-increment RMS was lower than RMA's but higher than those of PPO, tuned PD+DOB, and LQR. The classical controllers achieved smoother torque by accepting larger tracking error, whereas RMA combined relatively accurate tracking with the largest torque variation. Hardware evaluation should therefore report tracking and torque smoothness jointly rather than rank controllers by RMSE alone.
+
+\subsection{Evidence Boundaries and Ablation Requirements}
+
+RMA and PPO are algorithmic baselines, not strict component ablations: their policies, latent representations, and training procedures differ from TRACE. A submission-level component study should retrain or consistently evaluate full TRACE, a fixed-nominal-inertia variant, a Fast-only variant, short-only and long-only heads, fixed fusion, and the pre-DAgger estimator. This experiment is required to isolate the Slow TCN, dual-timescale heads, learned gate, and DAgger refinement independently.
+
+The generalization suite contains broad deterministic coverage but only one seed per condition. Its distributions therefore describe condition-wise behavior rather than statistical confidence. Low-amplitude and multi-sine cases at high Coulomb friction produced the largest inertia errors, and step references produced the largest tracking errors. These cases identify weak excitation and reference discontinuity as current boundaries. Additional tests should vary sensor noise, encoder quantization, action delay, clutch timing, and unmodeled compliance before making a broad sim-to-real robustness claim.
+
+\subsection{Deployment Implications}
+
+The final ONNX graph fits within the 5-ms control period on the target Orin when at least two CPU inference threads are used. Single-thread mean latency alone is not sufficient: its 1.6\% deadline-miss rate would be unacceptable for deterministic control without scheduling safeguards. The remaining timing budget must also accommodate sensing, communication, safety checks, and logging. Consequently, the hardware implementation is configured for multi-thread inference, and validation must measure end-to-end cycle time rather than neural inference in isolation.

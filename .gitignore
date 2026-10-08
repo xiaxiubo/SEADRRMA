@@ -42,3 +42,19 @@ figures/
 .idea/
 .DS_Store
 Thumbs.db
+
+# Manuscript figures and summary tables are publication artifacts
+!paper_latex/figures/
+!paper_latex/figures/**
+
+# LaTeX build products
+*.aux
+*.log
+*.blg
+*.bbl
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.out
+paper_latex/tmp/
+paper_latex/build/

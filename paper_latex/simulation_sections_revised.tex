@@ -1,0 +1,143 @@
+\section{Simulation Setup and Evaluation Protocol}
+\label{sec:simulation_setup}
+
+\subsection{SEA Model and Timing}
+
+TRACE is evaluated in MuJoCo using the rotational SEA model in Fig.~\ref{fig:sea_overview}. The payload body translates along a radial slider, giving the effective inertia $J_l=J_{l,\mathrm{base}}+J_{l,\mathrm{payload}}+m_pr^2$ without directly modifying the MuJoCo inertia tensor during integration. Table~\ref{tab:system_params} lists the structural parameters used in all reported simulations.
+
+\begin{table}[t]
+\centering
+\caption{SEA Simulation Parameters}
+\label{tab:system_params}
+\begin{tabular}{@{}lcc@{}}
+\toprule
+Parameter & Symbol & Value \\
+\midrule
+Motor inertia & $J_m$ & 0.417 kg$\cdot$m$^2$ \\
+Base load inertia & $J_{l,\mathrm{base}}$ & 0.04 kg$\cdot$m$^2$ \\
+Payload intrinsic inertia & $J_{l,\mathrm{payload}}$ & 0.01 kg$\cdot$m$^2$ \\
+Evaluated load-inertia range & $J_l$ & 0.05--1.00 kg$\cdot$m$^2$ \\
+Spring stiffness & $K_s$ & 3800 N$\cdot$m/rad \\
+Passive motor-joint damping & $B_{m,0}$ & 0.0955 N$\cdot$m$\cdot$s/rad \\
+Motor-torque limit & $\tau_{\max}$ & 61 N$\cdot$m \\
+Control / simulation rate & $f_c/f_{\mathrm{sim}}$ & 200 / 1000 Hz \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The main benchmark fixes the additional friction and damping terms at $F_{c,m}=6.0$~N$\cdot$m, $F_{c,l}=0.2$~N$\cdot$m, $B_m=8.0$~N$\cdot$m$\cdot$s/rad, $B_l=0.01$~N$\cdot$m$\cdot$s/rad, and $\Delta K_s=0$. An inertia switch is applied between control updates without artificially rescaling the joint velocity. This isolates controller recovery from an imposed momentum-reset artifact.
+
+\subsection{Training and Model Selection}
+
+The privileged teacher was initialized from the composite-trajectory policy and refined for $4\times10^6$ steps in 16 parallel environments using inertia-jump-focused episodes. The student dataset contains 1200 offline teacher episodes and four 240-episode DAgger rounds; an independent 120-episode set is reserved for validation. The final Fast Attention v2 checkpoint is selected by closed-loop evaluation rather than by offline validation loss alone.
+
+The PPO baseline uses the same 9-D instantaneous observation as TRACE but no history encoder. The RMA baseline~\cite{kumar2021RMA} uses one TCN to infer an 8-D latent vector and does not receive $J_l$ directly at deployment. To avoid reward-induced bias, the final RMA teacher is trained for $8\times10^6$ steps with the same base reward weights used by TRACE, followed by policy-aware student distillation from 3000 episodes. All learned controllers are frozen before the test trajectories are generated.
+
+The tuned PD+DOB baseline uses $K_p=500$, $K_d=15$, $J_{\mathrm{nom}}=0.5$~kg$\cdot$m$^2$, a 20-Hz first-order disturbance filter, and a disturbance-compensation gain of 0.2. Increasing $K_d$ from 2 to 15 suppresses the periodic torque oscillation without changing the observer structure. The augmented LQR is designed at $J_{\mathrm{nom}}=0.3$~kg$\cdot$m$^2$ and yields the implemented feedback gain $\bm{K}_{\mathrm{LQR}}=[15.636,\,2.915,\,112.761,\,4.052]$ for $[e_l,\dot e_l,e_m,\dot e_m]^\mathrm{T}$.
+
+\subsection{Evaluation Matrix and Metrics}
+
+The decisive benchmark uses the fixed reference $q_d(t)=0.5\sin(2\pi\,0.3t)$~rad with zero phase, so the initial position error is zero. The load inertia is 0.3~kg$\cdot$m$^2$ initially, drops to 0.05~kg$\cdot$m$^2$ at $t=3$~s (payload release), and rises to 0.75~kg$\cdot$m$^2$ at $t=7$~s (payload attachment). Every controller receives the same reference, physical parameters, switch times, and random seed.
+
+We report full-episode tracking RMSE, 0.5-s post-event RMSE, RMS motor torque, RMS torque increment $\mathrm{RMS}(\Delta\tau_m)$, saturation rate, and inertia-estimation RMSE where applicable. Generalization is evaluated over 108 deterministic closed-loop conditions: six trajectory/inertia families, $F_{c,l}\in\{0,0.1,\ldots,0.5\}$~N$\cdot$m, and $B_l\in\{0,0.01,0.03\}$~N$\cdot$m$\cdot$s/rad. Because each condition uses one seed, this suite measures coverage and worst-case behavior rather than sampling uncertainty.
+
+\section{Simulation Results}
+
+\subsection{Abrupt-Inertia Tracking Benchmark}
+
+To test whether explicit fast adaptation improves closed-loop behavior, all five controllers were evaluated under the same $0.3\rightarrow0.05\rightarrow0.75$~kg$\cdot$m$^2$ sequence. Fig.~\ref{fig:sim_main} aligns the position, error, torque, and TRACE inertia estimate on a shared time axis and enlarges the two post-switch evaluation windows.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=0.96\textwidth]{fig_sim_main_comparison.pdf}
+\caption{Closed-loop comparison under abrupt load-inertia changes. \textbf{(a)} Reference and load position. \textbf{(b)} Tracking error. \textbf{(c)} Applied motor torque. \textbf{(d)} True and TRACE-estimated load inertia. \textbf{(e,f)} Tracking-error responses in the shaded 0.5-s windows after payload release and attachment. The reference has zero phase and hence zero initial position error; vertical dashed lines mark the two events.}
+\label{fig:sim_main}
+\end{figure*}
+
+\begin{table}[t]
+\centering
+\caption{Abrupt-Inertia Benchmark; Lower Is Better}
+\label{tab:main_benchmark}
+\footnotesize
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Method & Overall & Release & Attach. & $\mathrm{RMS}(\Delta\tau)$ \\
+& RMSE & RMSE & RMSE & (N$\cdot$m) \\
+\midrule
+TRACE & \textbf{0.0140} & \textbf{0.0054} & 0.0204 & 0.4156 \\
+RMA & 0.0154 & 0.0068 & 0.0274 & 1.0879 \\
+PPO & 0.0203 & 0.0145 & \textbf{0.0125} & 0.2797 \\
+PD+DOB & 0.0248 & 0.0298 & 0.0181 & 0.2123 \\
+LQR & 0.0821 & 0.1026 & 0.0739 & \textbf{0.1273} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+TRACE achieved the lowest full-episode RMSE, reducing it by 9.1\% relative to the same-reward RMA baseline, 31.1\% relative to PPO, 43.6\% relative to PD+DOB, and 83.0\% relative to LQR. It also produced the smallest error in the 0.5-s window after payload release. PPO had the lowest immediate post-attachment RMSE, showing that TRACE did not dominate every local transient, but PPO accumulated more error over the complete trajectory. None of the controllers saturated in this zero-phase test. TRACE was smoother than RMA but had larger torque increments than PPO, PD+DOB, and LQR, which exposes a tracking--smoothness tradeoff rather than an unconditional advantage.
+
+\subsection{Timescale-Resolved Adaptation Dynamics}
+
+Figs.~\ref{fig:sim_adaptation} and~\ref{fig:sim_attention} examine the Fast Attention v2 Branch around the two events. The short and long estimates remain close in steady regimes but respond differently while the 100-sample history is being replaced. The learned gate blends these estimates, while the event windows show how attention redistributes over recent and older samples.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_sim_adaptation_estimates.pdf}
+\caption{Fast-branch adaptation outputs. \textbf{(a)} True inertia, short- and long-head estimates, and learned fusion. \textbf{(b)} Jump gate and confidence.}
+\label{fig:sim_adaptation}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_sim_attention_windows.pdf}
+\caption{Attention weights around \textbf{(a)} payload release and \textbf{(b)} payload attachment. Zero lag denotes the newest sample. The maps diagnose temporal routing rather than constitute a formal change detector.}
+\label{fig:sim_attention}
+\end{figure}
+
+In the zero-phase main benchmark, the fused estimate obtained stable-segment RMSEs of 0.0165, 0.0081, and 0.0234~kg$\cdot$m$^2$ in the three inertia regimes. The upward $0.05\rightarrow0.75$ transition produced the largest estimation excursion and coincided with TRACE's larger post-attachment tracking error. These diagnostics do not establish parameter identifiability.
+
+\subsection{Cross-Condition Generalization and Failure Modes}
+
+The 108-condition suite tests whether the fast estimator remains useful beyond the headline sinusoid. Figs.~\ref{fig:sim_generalization_inertia} and~\ref{fig:sim_generalization_tracking} report estimation and closed-loop tracking outcomes across trajectory, friction, and damping combinations.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_sim_generalization_inertia.pdf}
+\caption{Stable-segment inertia RMSE over 108 conditions. Each cell averages three load-damping values.}
+\label{fig:sim_generalization_inertia}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\columnwidth]{fig_sim_generalization_tracking.pdf}
+\caption{Closed-loop tracking RMSE for the same 108-condition suite.}
+\label{fig:sim_generalization_tracking}
+\end{figure}
+
+Across all conditions, the final estimator achieved mean and worst stable-segment inertia RMSEs of 0.0279 and 0.0790~kg$\cdot$m$^2$, respectively. Estimation error generally increased with load Coulomb friction in low-amplitude and multi-sine cases, whereas step references produced the largest tracking errors even when inertia error was moderate. The contrasting heatmaps therefore show that accurate inertia estimation is helpful but not sufficient: reference smoothness, the Slow TCN latent, and the frozen policy also shape closed-loop error.
+
+DAgger and output selection were also evaluated over this suite. The pre-DAgger confidence-hold model obtained mean/worst RMSEs of 0.0434/0.3771~kg$\cdot$m$^2$; after DAgger these became 0.0348/0.2495 with holding and 0.0279/0.0790 with the raw bounded output. Hard holding can preserve an outdated value during weak excitation, so the deployed controller records confidence only as a diagnostic.
+
+\subsection{Deployment Latency}
+\label{sec:computational_performance}
+
+The final control-only ONNX graph contains Fast Attention v2, the Slow TCN, fixed observation normalization, and the deterministic actor. Table~\ref{tab:deployment_latency} separates workstation timing from measurements on the target Jetson Orin.
+
+\begin{table}[t]
+\centering
+\caption{Final TRACE ONNX Latency at a 5-ms Deadline}
+\label{tab:deployment_latency}
+\footnotesize
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+Platform & Threads & Mean & P99 & Misses \\
+& & (ms) & (ms) & \\
+\midrule
+Workstation CPU & 1 & 0.862 & 1.127 & 0/5000 \\
+Jetson Orin CPU & 1 & 4.718 & 5.045 & 48/3000 \\
+Jetson Orin CPU & 2 & 3.421 & 3.669 & 0/3000 \\
+Jetson Orin CPU & 4 & 2.581 & 2.793 & 0/3000 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The single-thread Orin run met the deadline on average but missed 1.6\% of cycles. Two CPU threads eliminated deadline misses in the measured run and left 1.33~ms of P99 margin; four threads increased that margin further. PyTorch--ONNX parity was verified with maximum absolute action error below $1.5\times10^{-6}$. These timings cover neural inference only and exclude sensing, EtherCAT communication, logging, and safety supervision.

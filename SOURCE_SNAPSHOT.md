@@ -19,9 +19,12 @@ Excluded from the publication:
 - whole-arm demonstration code
 - training datasets and checkpoints not required at runtime
 - all model weights and ONNX external-data files (distributed separately)
-- paper sources and generated paper figures
+- temporary manuscript build products and preview caches
 
 Publication-specific changes:
+
+- the local `paper_latex` workspace was added on 2026-10-08 with manuscript sources,
+  bibliography, exported figures, editable artwork, PDF snapshots, and plotting scripts
 
 - nonzero torque output is disabled by default in the main experiment entries
 - automatic relay operation is disabled by default in fixed-inertia scripts

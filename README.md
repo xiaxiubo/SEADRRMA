@@ -5,6 +5,11 @@ contains the hardware communication path, controller implementations, deployment
 artifacts, commissioning scripts, and offline analysis tools needed to reproduce a
 single-joint test on another controller.
 
+The complete manuscript package is in [`paper_latex/`](paper_latex/README.md), including
+the current TRACE draft, previous DR-RMA draft, bibliography, figures, editable
+artwork, PDF snapshots, and plotting scripts. Run `python tools/build_paper.py`
+from the repository root to compile the current draft.
+
 ## Start here
 
 Do not begin with a learned controller. Commission a new controller in this order:

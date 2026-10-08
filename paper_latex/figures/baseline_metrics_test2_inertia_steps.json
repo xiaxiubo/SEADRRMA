@@ -1,0 +1,42 @@
+[
+  {
+    "method": "DR-RMA",
+    "rmse_rad": 0.017608635859024703,
+    "max_error_rad": 0.18011302204683421,
+    "torque_rms_nm": 15.604167406137188,
+    "mean_abs_torque_nm": 14.01514872437343,
+    "sat_rate_percent": 0.8
+  },
+  {
+    "method": "PPO",
+    "rmse_rad": 0.07185575719940396,
+    "max_error_rad": 0.23373100138667055,
+    "torque_rms_nm": 14.252043849179246,
+    "mean_abs_torque_nm": 13.134839224779979,
+    "sat_rate_percent": 0.0
+  },
+  {
+    "method": "RMA",
+    "rmse_rad": 0.07740515674451309,
+    "max_error_rad": 0.20023766936554552,
+    "torque_rms_nm": 13.77421309337756,
+    "mean_abs_torque_nm": 12.465974872089923,
+    "sat_rate_percent": 0.0
+  },
+  {
+    "method": "PD+DOB",
+    "rmse_rad": 0.03505668628684936,
+    "max_error_rad": 0.18011302204683421,
+    "torque_rms_nm": 15.778562972899753,
+    "mean_abs_torque_nm": 13.97306626280838,
+    "sat_rate_percent": 0.8
+  },
+  {
+    "method": "LQR",
+    "rmse_rad": 0.10783333228381226,
+    "max_error_rad": 0.18737041365059298,
+    "torque_rms_nm": 14.010202498533905,
+    "mean_abs_torque_nm": 12.814086292360031,
+    "sat_rate_percent": 0.0
+  }
+]
